@@ -1,0 +1,86 @@
+apiVersion: suffiks.com/v1
+kind: Extension
+metadata:
+  name: ingresses
+spec:
+  controller:
+    wasi:
+      image: ghcr.io/suffiks/extension-as-ingress
+      tag: v0.0.5
+      configMap:
+        name: as-ingress-config
+        namespace: system
+      resources:
+        - group: networking.k8s.io
+          version: v1
+          resource: ingresses
+          methods:
+            - get
+            - update
+            - create
+            - delete
+  openAPIV3Schema:
+    properties:
+      ingresses:
+        description:
+          List of URLs that will route HTTPS traffic to the application.
+          All URLs must start with `https://`. Domain availability differs according
+          to which environment your application is running in.
+        items:
+          properties:
+            host:
+              type: string
+            paths:
+              items:
+                type: string
+              type: array
+          required:
+            - host
+          type: object
+        type: array
+    type: object
+  targets:
+    - Application
+  webhooks:
+    defaulting: true
+    validation: true
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: as-ingress-config
+  namespace: system
+data:
+  INGRESSES: "*.suffiks.com,suffiks.com"
+
+---
+# Give the service account suffiks access to create, get and update ingresses
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: suffiks-ingress
+rules:
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - update
+      - create
+      - delete
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: suffiks-ingress
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: suffiks-ingress
+subjects:
+  - kind: ServiceAccount
+    name: suffiks-controller-manager
+    namespace: system

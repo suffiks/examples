@@ -1,0 +1,19 @@
+apiVersion: suffiks.com/v1
+kind: Extension
+metadata:
+  creationTimestamp: null
+  name: extension
+spec:
+  controller:
+    grpc:
+      namespace: ""
+      port: 0
+      service: ""
+  openAPIV3Schema:
+    type: object
+  targets:
+  - Application
+  webhooks:
+    defaulting: true
+    validation: true
+status: {}

@@ -1,0 +1,20 @@
+app: &app
+  apiVersion: suffiks.com/v1
+  kind: Application
+  metadata: &metadata
+    name: testapp
+    namespace: testns
+  spec:
+    ingresses:
+      - host: testapp.invalid.com
+        paths: ["/"]
+
+config:
+  INGRESSES: "*.valid.com"
+
+tests:
+  - name: Validate
+    validate:
+      type: create
+      invalid: true
+      resource: *app
