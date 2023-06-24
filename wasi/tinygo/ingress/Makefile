@@ -1,4 +1,4 @@
-IMAGE ?= ghcr.io/suffiks/examples/wasi/ingress-as:v0.0.1
+IMAGE ?= ghcr.io/suffiks/examples/wasi/ingress-tinygo:v0.0.2
 
 build/release.wasm: $(wildcard *.go) go.mod go.sum
 	mkdir -p build

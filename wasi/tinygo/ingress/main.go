@@ -109,7 +109,7 @@ func Sync() {
 }
 
 //export Delete
-func Delete() {
+func Delete() uint64 {
 	owner := suffiks.GetOwner()
 
 	err := suffiks.DeleteResource(
@@ -119,9 +119,10 @@ func Delete() {
 		owner.Name,
 	)
 	if err != nil && !errors.Is(err, suffiks.ErrNotFound) {
-		fmt.Println("Error deleting ingress", err)
-		return
+		return suffiks.DeleteResponse("Error deleting ingress: " + err.Error())
 	}
+
+	return 0
 }
 
 //export Defaulting

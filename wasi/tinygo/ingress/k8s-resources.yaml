@@ -5,10 +5,10 @@ metadata:
 spec:
   controller:
     wasi:
-      image: ghcr.io/suffiks/extension-as-ingress
+      image: ghcr.io/suffiks/extension-tinygo-ingress
       tag: v0.0.5
       configMap:
-        name: as-ingress-config
+        name: tinygo-ingress-config
         namespace: system
       resources:
         - group: networking.k8s.io
@@ -49,7 +49,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: as-ingress-config
+  name: tinygo-ingress-config
   namespace: system
 data:
   INGRESSES: "*.suffiks.com,suffiks.com"
