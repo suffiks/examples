@@ -5,8 +5,8 @@ metadata:
 spec:
   controller:
     wasi:
-      image: ghcr.io/suffiks/extension-as-ingress
-      tag: v0.0.5
+      image: ghcr.io/suffiks/examples/wasi/ingress-as
+      tag: v0.0.6
       configMap:
         name: as-ingress-config
         namespace: system

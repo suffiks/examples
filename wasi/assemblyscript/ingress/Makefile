@@ -1,4 +1,4 @@
-IMAGE ?= ghcr.io/suffiks/examples/wasi/ingress-as:v0.0.5
+IMAGE ?= ghcr.io/suffiks/examples/wasi/ingress-as:v0.0.6
 
 build/release.wasm: $(wildcard assembly/*.ts)
 	npm run asbuild:release
